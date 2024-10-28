@@ -25,12 +25,15 @@ const reactionSchema = new Schema<IReaction>({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: (createdAtVal: Date) => createdAtVal.toDateString()
+        get: (createdAtVal: Date): string => {
+            return createdAtVal.toDateString();
+        }
     }
-},
-{
+}, {
+    timestamps: true,
     toJSON: {
-        getters: true
+        getters: true,
+        virtuals: true
     },
     id: false
 });

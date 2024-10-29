@@ -4,3 +4,4 @@ coverage
 .env
 dotenv_config.js
 dotenv
+package-lock.json

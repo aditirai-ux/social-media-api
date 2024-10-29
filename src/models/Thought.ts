@@ -1,14 +1,14 @@
-import { Schema, Document, Types, ObjectId, get } from "mongoose";
-import { Reaction } from "./Reaction";
+import { Schema, Document, ObjectId, model } from "mongoose";
+import Reaction from "./Reaction";
 
 interface IThought extends Document {
     thoughtText: string;
     createdAt: Date;
     username: string;
-    reactions: [Reaction];
+    reactions: typeof Reaction[];
 }
 
-const thoughtSchema = new Schema({
+const thoughtSchema = new Schema<IThought>({
     thoughtText: {
         type: String,
         required: true,
@@ -18,9 +18,9 @@ const thoughtSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now,
-        get: (createdAtVal: Date): string => {
-            return createdAtVal.toDateString();
-        }
+        // get: (createdAtVal: Date): string => {
+        //     return createdAtVal.toDateString();
+        // }
     },
     username: {
         type: String,
@@ -34,3 +34,11 @@ const thoughtSchema = new Schema({
     },
     id: false
 });
+
+thoughtSchema.virtual('reactionCount').get(function() {
+    return this.reactions.length;
+});
+
+const Thought = model('Thought', thoughtSchema);
+
+export default Thought;

@@ -1,5 +1,3 @@
-import { get } from "mongoose";
-
 const names = [
     'Aaran',
     'Aaren',

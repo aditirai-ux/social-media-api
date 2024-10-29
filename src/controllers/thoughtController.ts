@@ -95,4 +95,21 @@ export const addReaction = async (req: Request, res: Response) => {
     }
 }
 // Remove a reaction from a thought
-export const removeReaction();
+export const removeReaction = async (req: Request, res: Response) => {
+    try {
+        const thought = await Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $pull: { reactions: { reactionId: req.params.reactionId } } },
+            { new: true, runValidators: true }
+        );
+        if (!thought) {
+            return res.status(404).json({ message: 'No thought found with this id!' });
+        }
+        res.json({ message: 'Reaction deleted!' });
+        res.json(thought);
+        return;
+    } catch (err) {
+        res.status(400).json(err);
+        return;
+    }
+}

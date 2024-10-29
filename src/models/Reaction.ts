@@ -1,17 +1,17 @@
-import e from 'express';
-import { Schema, Document, ObjectId, Types } from 'mongoose';
+// import e from 'express';
+import { Schema, Types } from 'mongoose';
 
-interface IReaction extends Document {
-    reactionId: ObjectId;
-    reactionBody: string;
-    username: string;
-    createdAt: Date;
-}
+// interface IReaction extends Document {
+//     reactionId: ObjectId;
+//     reactionBody: string;
+//     username: string;
+//     createdAt: string;
+// }
 
-const reactionSchema = new Schema<IReaction>({
+const reactionSchema = new Schema({
     reactionId: {
         type: Types.ObjectId,
-        default: new Types.ObjectId()
+        default: () => new Types.ObjectId()
     },
     reactionBody: {
         type: String,
@@ -30,7 +30,7 @@ const reactionSchema = new Schema<IReaction>({
         }
     }
 }, {
-    timestamps: true,
+    // timestamps: true,
     toJSON: {
         getters: true,
         virtuals: true

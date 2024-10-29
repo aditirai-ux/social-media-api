@@ -30,7 +30,7 @@ const reactionSchema = new Schema({
         }
     }
 }, {
-    // timestamps: true,
+    timestamps: true,
     toJSON: {
         getters: true,
         virtuals: true

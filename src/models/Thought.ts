@@ -1,4 +1,4 @@
-import { Schema, Document, ObjectId, model } from "mongoose";
+import { Schema, Document, model } from "mongoose";
 import Reaction from "./Reaction";
 
 interface IThought extends Document {
@@ -28,6 +28,7 @@ const thoughtSchema = new Schema<IThought>({
     },
     reactions: [Reaction]
 }, {
+    timestamps: true,
     toJSON: {
         virtuals: true,
         getters: true

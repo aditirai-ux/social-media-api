@@ -1,3 +1,5 @@
+import { get } from "mongoose";
+
 const names = [
     'Aaran',
     'Aaren',
@@ -102,7 +104,29 @@ export const getRandomName =() =>
     `${getRandomItem(names)} ${getRandomItem(names)}`;
 
 // function to get random thought
-export const getRandomThought = () => getRandomItem(randomThoughts);
+export const getRandomThought = (int: number) => {
+    let results = [];
+    for (let i = 0; i < int; i++) {
+      results.push({
+        thoughtText: getRandomItem(randomThoughts),
+        username: getRandomName(),
+        reactions: [...getThoughtReaction(3)],
+      });
+    }
+    return results;
+  };
 
-// function to get random reaction
-export const getRandomReaction = () => getRandomItem(possibleReactions);
+// function to get reaction to thoughts
+export const getThoughtReaction = (int: number) => {
+    if (int === 1) {
+      return getRandomItem(possibleReactions);
+    }
+    const results = [];
+    for (let i = 0; i < int; i++) {
+      results.push({
+        reactionBody: getRandomItem(possibleReactions),
+        username: getRandomName()
+      });
+    }
+    return results;
+  };

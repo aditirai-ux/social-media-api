@@ -10,10 +10,13 @@ export const getUsers = async (_req: Request, res: Response) => {
         res.status(400).json(err);
     }
 }
-// Get single user by _id
+
+// GET a single user by its _id and populated thought and friend data
 export const getSingleUser = async (req: Request, res: Response) => {
     try {
         const userData = await User.findOne({ _id: req.params.userId })
+        .populate({ path: 'thoughts', select: '-__v' })
+        .populate({ path: 'friends', select: '-__v' })
         .select('-__v');
         if (!userData) {
             return res.status(404).json({ message: 'No user found with this id!' });
@@ -25,6 +28,21 @@ export const getSingleUser = async (req: Request, res: Response) => {
         return;
     }
 }
+
+// export const getSingleUser = async (req: Request, res: Response) => {
+//     try {
+//         const userData = await User.findOne({ _id: req.params.userId })
+//         .select('-__v');
+//         if (!userData) {
+//             return res.status(404).json({ message: 'No user found with this id!' });
+//         }  
+//         res.json(userData);
+//         return;
+//     } catch (err) {
+//         res.status(400).json(err);
+//         return;
+//     }
+// }
 // Create a user
 export const createUser = async (req: Request, res: Response) => {
     try {

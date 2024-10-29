@@ -17,10 +17,7 @@ const thoughtSchema = new Schema<IThought>({
     },
     createdAt: {
         type: Date,
-        default: Date.now,
-        // get: (createdAtVal: Date): string => {
-        //     return createdAtVal.toDateString();
-        // }
+        default: Date.now
     },
     username: {
         type: String,

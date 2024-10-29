@@ -29,7 +29,16 @@ export const getSingleThought = async (req: Request, res: Response) => {
 export const createThought = async (req: Request, res: Response) => {
     try {
         const thoughtData = await Thought.create(req.body);
-        res.json(thoughtData);
+        const user = await User.findOneAndUpdate(
+            { _id: req.body.userId },
+            { $addToSet: { thoughts: thoughtData._id } },
+            { new: true }
+        );
+        if (!user) {
+            return res.status(404).json({ message: 'Thought created but no user found with this id!' });
+        } else {
+            return res.json('Created the thought 🎉');
+        }
     } catch (err) {
         res.status(400).json(err);
     }

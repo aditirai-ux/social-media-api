@@ -17,7 +17,7 @@ export const getSingleUser = async (req: Request, res: Response) => {
         const userData = await User.findOne({ _id: req.params.userId })
         .populate({ path: 'thoughts', select: '-__v' })
         .populate({ path: 'friends', select: '-__v' })
-        .select('-__v');
+        
         if (!userData) {
             return res.status(404).json({ message: 'No user found with this id!' });
         }  

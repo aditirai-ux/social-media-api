@@ -14,7 +14,7 @@ export const getThoughts = async (_req: Request, res: Response) => {
 export const getSingleThought = async (req: Request, res: Response) => {
     try {
         const thoughtData = await Thought.findOne({ _id: req.params.thoughtId })
-        .select('-__v');
+        .populate({path: 'reactions', select: '-__v'});
         if (!thoughtData) {
             return res.status(404).json({ message: 'No thought found with this id!' });
         }  

@@ -11,7 +11,14 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 }
 // Get single user by _id
-export const getSingleUser();
+export const getSingleUser = async (req: Request, res: Response) => {
+    try {
+        const userData = await User.findOne({ _id: req.params.userId });
+        res.json(userData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+}
 // Create a user
 export const createUser();
 // Update user by _id

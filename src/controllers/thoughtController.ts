@@ -106,7 +106,6 @@ export const removeReaction = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'No thought found with this id!' });
         }
         res.json({ message: 'Reaction deleted!' });
-        res.json(thought);
         return;
     } catch (err) {
         res.status(400).json(err);

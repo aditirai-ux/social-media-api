@@ -24,10 +24,7 @@ const reactionSchema = new Schema<IReaction>({
     },
     createdAt: {
         type: Date,
-        default: Date.now,
-        get: (createdAtVal: any) => {
-            return createdAtVal.toDateString();
-        }
+        default: Date.now
     }
 }, {
     timestamps: true,

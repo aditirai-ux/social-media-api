@@ -59,7 +59,17 @@ export const deleteThought = async (req: Request, res: Response) => {
         if (!thoughtData) {
             return res.status(404).json({ message: 'No thought found with this id!' });
         }
-        res.json(thoughtData);
+// Look for users associated with the thought and remove the thought from their `thoughts` array
+        const user = await User.findOneAndUpdate(
+            { thoughts: req.params.thoughtId },
+            { $pull: { thoughts: req.params.thoughtId } },
+            { new: true }
+        );
+        if (!user) {
+            return res.status(404).json({ message: 'Thought deleted but no user found with this thought!' });
+        }
+
+        res.json({ message: 'Thought deleted!' });
         return;
     } catch (err) {
         res.status(400).json(err);
@@ -67,6 +77,22 @@ export const deleteThought = async (req: Request, res: Response) => {
     }
 }
 // Add a reaction to a thought
-export const addReaction(); 
+export const addReaction = async (req: Request, res: Response) => {
+    try {
+        const thought = await Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $addToSet: { reactions: req.body } },
+            { new: true, runValidators: true }
+        );
+        if (!thought) {
+            return res.status(404).json({ message: 'No thought found with this id!' });
+        }
+        res.json(thought);
+        return;
+    } catch (err) {
+        res.status(400).json(err);
+        return;
+    }
+}
 // Remove a reaction from a thought
 export const removeReaction();

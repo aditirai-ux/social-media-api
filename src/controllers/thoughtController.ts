@@ -1,5 +1,5 @@
+import { Thought, User } from '../models/index.js';
 import { Request, Response } from 'express';
-import { User, Thought } from '../models/index.js';
 
 // Get all thoughts
 export const getThoughts = async (_req: Request, res: Response) => {
@@ -12,9 +12,8 @@ export const getThoughts = async (_req: Request, res: Response) => {
 } 
 // Get single thought by _id
 export const getSingleThought = async (req: Request, res: Response) => {
-    const { thoughtId } = req.params;
     try {
-        const thoughtData = await Thought.findById(thoughtId)
+        const thoughtData = await Thought.findById(req.params.thoughtId)
         // .populate({path: 'reactions', select: '-__v'});
         if (!thoughtData) {
             return res.status(404).json({ message: 'No thought found with this id!' });

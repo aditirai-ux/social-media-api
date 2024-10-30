@@ -12,13 +12,14 @@ export const getThoughts = async (_req: Request, res: Response) => {
 } 
 // Get single thought by _id
 export const getSingleThought = async (req: Request, res: Response) => {
+    const { thoughtId } = req.params;
     try {
-        const thoughtData = await Thought.findOne({ _id: req.params.thoughtId })
+        const thoughtData = await Thought.findById(thoughtId)
         .populate({path: 'reactions', select: '-__v'});
         if (!thoughtData) {
             return res.status(404).json({ message: 'No thought found with this id!' });
         }  
-        res.json(thoughtData);
+        res.json(thoughtData);  
         return;
     } catch (err) {
         res.status(400).json(err);
@@ -71,14 +72,14 @@ export const deleteThought = async (req: Request, res: Response) => {
             return res.status(404).json({ message: 'No thought found with this id!' });
         }
 // Look for users associated with the thought and remove the thought from their `thoughts` array
-        const user = await User.findOneAndUpdate(
-            { thoughts: req.params.thoughtId },
-            { $pull: { thoughts: req.params.thoughtId } },
-            { new: true }
-        );
-        if (!user) {
-            return res.status(404).json({ message: 'Thought deleted but no user found with this thought!' });
-        }
+        // const user = await User.findOneAndUpdate(
+        //     { thoughts: req.params.thoughtId },
+        //     { $pull: { thoughts: req.params.thoughtId } },
+        //     { new: true }
+        // );
+        // if (!user) {
+        //     return res.status(404).json({ message: 'Thought deleted but no user found with this thought!' });
+        // }
 
         res.json({ message: 'Thought deleted!' });
         return;

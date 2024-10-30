@@ -12,8 +12,8 @@ router.route('/').get(getThoughts).post(createThought);
 // GET a single thought by its id
 // PUT to update a thought by its id
 // DELETE a user by its id
-// /api/thoughts/:thoughId
-router.route('/:thoughId').get(getSingleThought).put(updateThought).delete(deleteThought);
+// /api/thoughts/:thoughtId
+router.route('/:thoughtId').get(getSingleThought).put(updateThought).delete(deleteThought);
 
 
 // POST to add a new reaction to a thought

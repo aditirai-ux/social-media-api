@@ -15,7 +15,7 @@ export const getUsers = async (_req: Request, res: Response) => {
 export const getSingleUser = async (req: Request, res: Response) => {
     try {
         const userData = await User.findOne({ _id: req.params.userId })
-        .populate({ path: 'thoughts', select: '-__v' })
+        .populate({ path: 'Thought', select: '-__v' })
         .populate({ path: 'friends', select: '-__v' })
         
         if (!userData) {
